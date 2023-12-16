@@ -216,6 +216,12 @@ endif()
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "www.openquantumsafe.org")
 include(CPack)
 
+file(ARCHIVE_CREATE
+    OUTPUT "${PROJECT_BINARY_DIR}/includes.zip"
+    PATHS 
+         ${PROJECT_BINARY_DIR}/include
+    FORMAT "zip")
+    
 # uninstall target
 if(NOT TARGET uninstall)
   configure_file(

@@ -29,11 +29,9 @@ jobs:
           name: liboqs
           path: |
                 ${{ github.workspace }}/build/lib/*.*
-                ${{ github.workspace }}/build/bin/Release/*.*
-                ${{ github.workspace }}/build/includes.zip
                 
       - name: release
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          artifacts: "build/lib/*.*, build/bin/Release/*.*,build/*.zip"
+          artifacts: "build/lib/*.*"

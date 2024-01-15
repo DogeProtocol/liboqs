@@ -1,0 +1,37 @@
+name: Mac Release x86_x64
+
+on:
+  push:
+    tags:
+    - '*'    
+
+jobs:
+  apple-mmac:
+    runs-on: macos-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        platform: [MAC]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Generate project
+        run: cmake -B build --toolchain .CMake/apple.cmake -DOQS_USE_OPENSSL=OFF -DPLATFORM=${{ matrix.platform }} .
+        
+      - name: Build project
+        run: cmake --build build
+        
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        
+        with:
+          name: liboqs
+          path: |
+                ${{ github.workspace }}/build/lib/*.*
+                
+      - name: release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "build/lib/*.*"
